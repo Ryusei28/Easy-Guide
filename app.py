@@ -36,7 +36,7 @@ if st.button("案内を開始", type="primary"):
             try:
                 # 新しい公式の書き方での実行
                 response = client.models.generate_content(
-                    model='gemini-1.5-flash',
+                    model='gemini-2.5-flash',
                     contents=destination,
                     config=types.GenerateContentConfig(
                         system_instruction=system_instruction_text,
