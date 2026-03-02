@@ -2,7 +2,6 @@ import streamlit as st
 from google import genai
 from google.genai import types
 
-# Streamlitの「秘密の金庫」からキーを読み込む
 API_KEY = st.secrets["GEMINI_API_KEY"]
 
 system_instruction_text = """
