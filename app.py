@@ -1,7 +1,8 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
-# ★ 変更点: APIキーを直接書かず、クラウドの「金庫」から読み込む
+# Streamlitの「秘密の金庫」からキーを読み込む
 API_KEY = st.secrets["GEMINI_API_KEY"]
 
 system_instruction_text = """
@@ -18,12 +19,9 @@ system_instruction_text = """
 
 st.set_page_config(page_title="Station Exit Guide", layout="centered")
 
+# 新しいクライアント設定
 try:
-    genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel(
-        model_name="gemini-1.5-flash", 
-        system_instruction=system_instruction_text
-    )
+    client = genai.Client(api_key=API_KEY)
 except Exception as e:
     st.error(f"設定エラー: {e}")
 
@@ -36,7 +34,14 @@ if st.button("案内を開始", type="primary"):
     if destination:
         with st.spinner(f"「{destination}」を検索中..."):
             try:
-                response = model.generate_content(destination)
+                # 新しい公式の書き方での実行
+                response = client.models.generate_content(
+                    model='gemini-1.5-flash',
+                    contents=destination,
+                    config=types.GenerateContentConfig(
+                        system_instruction=system_instruction_text,
+                    )
+                )
                 
                 st.markdown("### 📍 案内結果")
                 st.markdown(response.text)
