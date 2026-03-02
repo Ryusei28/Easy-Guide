@@ -21,7 +21,7 @@ st.set_page_config(page_title="Station Exit Guide", layout="centered")
 try:
     genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel(
-        model_name="gemini-1.5-flash", 
+        model_name="gemini-1.5-flash-latest", 
         system_instruction=system_instruction_text
     )
 except Exception as e:
